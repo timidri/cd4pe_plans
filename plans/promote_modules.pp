@@ -19,8 +19,8 @@ plan cd4pe_plans::promote_modules(
   }
 
   $modules.each |$module| {
-   $params['repo_name'] = $module
-   $result = run_task('cd4pe::promote_pipeline_to_stage', $targets, "Promoting ${module} to ${params['stage_name']}", $params)
-   out::message($result)
+    $params['repo_name'] = $module
+    $result = run_task('cd4pe::promote_pipeline_to_stage', $targets, "Promoting ${module} to ${params['stage_name']}", $params)
+    out::message($result)
   }
 }
