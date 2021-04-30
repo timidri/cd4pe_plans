@@ -2,7 +2,7 @@
 # @param modules The array of modules to promote, as a comma-separated string
 # @param workspace The workspace the pipelines live in
 # @param branch The branch the pipeline triggers on
-# @param commit_sha If left empty, the commit of the last pipeline run will be promoted. If specified, that commit (or branch reference) will be promoted. Obviously, specifying the same commit hash (instead a branch) for multiple modules doesn't really make sense.
+# @param commit_sha If left empty, the commit of the last pipeline run will be promoted. If specified, that commit (or branch reference) will be promoted. Obviously, specifying the same commit hash (instead of a branch) for multiple modules doesn't really make sense.
 # @param stage The stage to promote to
 # @param cd4pe_host The host running the CD4PE application
 # @param cd4pe_email The email address of the CD4PE user
