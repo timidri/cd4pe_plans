@@ -1,5 +1,5 @@
 # This plan will promote a list of modules to a specified stage.
-# @param modules The array of modules to promote
+# @param modules The array of modules to promote, as a comma-separated string
 # @param workspace The workspace the pipelines live in
 # @param branch The branch the pipeline triggers on
 # @param commit_sha If left empty, the commit of the last pipeline run will be promoted. If specified, that commit (or branch reference) will be promoted. Obviously, specifying the same commit hash (instead a branch) for multiple modules doesn't really make sense.
@@ -10,7 +10,7 @@
 # @param targets The node to run the task on
 plan cd4pe_plans::promote_modules(
   TargetSpec $targets,
-  Array[String[1]] $modules,
+  String[1] $modules,
   String[1] $workspace,
   String[1] $stage,
   String[1] $branch = 'master',
@@ -20,22 +20,21 @@ plan cd4pe_plans::promote_modules(
   Sensitive[String[1]] $cd4pe_password,
 ){
   $cd4pe_endpoint = "https://${cd4pe_host}"
-  $params = {
-    email           => $cd4pe_email,
-    password        => $cd4pe_password.unwrap,
-    repo_type       => 'module',
-    branch_name     => $branch,
-    workspace       => $workspace,
-    stage_name      => $stage,
-    web_ui_endpoint => $cd4pe_endpoint,
-    commit_sha      => $commit_sha,
-  }
 
-  $modules.each |$module| {
-    $repo_params = { repo_name => $module }
-    $all_params = $params + $repo_params
+  $modules.split(',').each |$module| {
+    $params = {
+      email           => $cd4pe_email,
+      password        => $cd4pe_password.unwrap,
+      repo_name       => $module,
+      repo_type       => 'module',
+      branch_name     => $branch,
+      workspace       => $workspace,
+      stage_name      => $stage,
+      web_ui_endpoint => $cd4pe_endpoint,
+      commit_sha      => $commit_sha,
+    }
     $message = "Promoting ${module} to stage '${params['stage_name']}'"
-    $result = run_task('cd4pe::promote_pipeline_to_stage', $targets, $message, $all_params)
+    $result = run_task('cd4pe::promote_pipeline_to_stage', $targets, $message, $params)
     out::message($result)
   }
 }
