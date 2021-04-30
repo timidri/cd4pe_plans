@@ -30,9 +30,9 @@ The following parameters are available in the `cd4pe_plans::promote_modules` pla
 
 ##### <a name="modules"></a>`modules`
 
-Data type: `Array[String[1]]`
+Data type: `String[1]`
 
-The array of modules to promote
+The array of modules to promote, as a comma-separated string
 
 ##### <a name="workspace"></a>`workspace`
 
