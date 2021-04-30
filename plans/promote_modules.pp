@@ -18,6 +18,9 @@ plan cd4pe_plans::promote_modules(
     commit_sha      => '737f6e72b818a3c66aa2f5bed51bd3ac0c40d21c',
   }
 
-  $result = run_task('cd4pe::promote_pipeline_to_stage', $targets, "Promoting control repo", $params)
-  out::message($result)
+  $modules.each |$module| {
+    $params['repo_name'] = $module
+    $result = run_task('cd4pe::promote_pipeline_to_stage', $targets, "Promoting ${module} to ${params['stage_name']}", $params)
+    out::message($result)
+  }
 }
